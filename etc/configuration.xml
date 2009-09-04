@@ -1,0 +1,4 @@
+<opt AWStatsExamplesLocation="/usr/share/doc/packages/awstats/examples" AWStatsScriptLocation="/srv/www/cgi-bin/awstats.pl" errorEmail="example@example.xom" errorLog="etc/error.log" localStorageDirectory="/srv/stats" templateConf="etc/template.conf">
+  <server name="example.com" hostConfLocation="/etc/apache2/vhosts.d" operatingSystem="Linux" rsyncUser="example" serverDisabled="False">
+  </server>
+</opt>

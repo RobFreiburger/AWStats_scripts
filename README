@@ -1,0 +1,63 @@
+Required modules: XML::Simple, Mail::Sendmail, Data::Dumper, File::Copy 
+
+Each script does a specific task. String them together in a shell script for easy execution.
+
+./bin:
+AWStatsConfWriter.pl
+Writes the needed configuration file for AWStats. 
+Stats are generated per server per host.
+
+AWStatsProcessLogs.pl
+Runs AWStats for every host on every server.
+Stats are generated per server per host.
+
+apacheConfRetrieval.pl
+Pulls virtual host configuration files from Linux servers.
+Parses files for necessary information and updates XML file.
+Establishes hosts per server.
+
+dataDumper.pl
+Debugging purposes only.
+Prints out the contents of XML file in understandable format.
+Helps with figuring out what data type Perl is expecting.
+
+errorNotification.pl
+Puts contents of ./etc/error.log into email message.
+Emails errorEmail value set in configuration.xml.
+Deletes contents of ./etc/error.log.
+
+hostAWStatsProcessLogs.pl
+Deprecated. Use ./bin/hostAWStatsProcessing.pl.
+Modification of ./bin/AWStatsProcessLogs.pl.
+Processes logs for one host for every server host is on.
+Doesn't work as expected; kept for example purposes.
+
+hostAWStatsProcessing.pl
+Writes AWStats configuration file per host for every server host is on.
+Processes AWStats after writing each configuration file.
+Afterward repeats for next server.
+Once servers processed, moves on to next host and repeats.
+
+hostServerAssociation.pl
+Takes results from ./bin/apacheConfRetrieval.pl and INSERT WINDOWS SCRIPT HERE.
+Makes root-level array of hosts then lists server(s) each host is on.
+In other words, adds invert of XML file structure to XML file.
+Used for per host stats generation.
+
+logRsync.pl
+Retrieves log files from Linux servers.
+
+logTail.pl
+Captures timestamp of last entry in log file per host per server.
+Scripts like ./bin/hostAWStatsProcessing.pl check for timestamp.
+If timestamp exists at next run, lots of redundant processing time is saved.
+
+./etc:
+configuration.xml
+Bare minimum version of XML file. 
+Contains everything necessary for scripts to run properly.
+
+template.conf
+Template AWStats configuration file.
+Automatically generated stats files import settings from this template.
+Allows for enabling/disabling features like IP lookup, DNS caching, and browser plug-in reporting.
