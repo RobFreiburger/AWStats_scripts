@@ -33,10 +33,10 @@ sub writeError {
 my $errorLog;
 { local $/ = undef; local *FILE; open FILE, "<$configurationXMLContent->{localStorageDirectory}/$configurationXMLContent->{errorLog}"; $errorLog = <FILE>; close FILE }
 
-# Email to NOC
+# Email error log
 my %email;
 $email{to} = $configurationXMLContent->{errorEmail};
-$email{from} = 'noreply@alliancetechnologies.net';
+$email{from} = 'example@example.com';
 (my $DAY, my $MONTH, my $YEAR) = (localtime)[3,4,5];
 $YEAR += 1900;
 $email{subject} = "AWStats Error Log $YEAR-$MONTH-$DAY";
