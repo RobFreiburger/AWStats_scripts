@@ -4,7 +4,6 @@
 use strict;
 use XML::Simple qw(:strict);
 use English '-no_match_vars';
-use Benchmark; # Benchmarking
 
 # Changeable variables
 my $configurationXMLFile = "/srv/stats/etc/configuration.xml";
@@ -25,11 +24,9 @@ sub writeError {
 	my $dateTime = localtime;
 	my $logEntry = join(' | ', $dateTime, $0, $errorString);
 	
-	# debugging
-	print $logEntry;
-	# open(ERRORLOG, ">>$configurationXMLContent->{localStorageDirectory}/$configurationXMLContent->{errorLog}"); # Append mode
-	# print ERRORLOG "$logEntry";
-	# close(ERRORLOG);
+	open(ERRORLOG, ">>$configurationXMLContent->{localStorageDirectory}/$configurationXMLContent->{errorLog}"); # Append mode
+	print ERRORLOG "$logEntry";
+	close(ERRORLOG);
 }
 
 sub runStats {
@@ -73,10 +70,6 @@ foreach my $hostReference (@{$configurationXMLContent->{host}})
 	mkdir("$configurationXMLContent->{localStorageDirectory}/host/$hostName") if !(-e "$configurationXMLContent->{localStorageDirectory}/host/$hostName");
 	
 	foreach my $serverReference (@{$hostReference->{server}}) {
-		my $t0 = new Benchmark; # Benchmarking
 		runStats($hostName, $serverReference->{name});
-		my $t1 = new Benchmark; # Benchmarking
-		my $td = timediff($t1, $t0); # Benchmarking
-		print "$serverReference->{name} took:",timestr($td),"\n"; # Benchmarking
 	}
 }

@@ -5,7 +5,6 @@
 use strict;
 use XML::Simple qw(:strict);
 use English '-no_match_vars';
-use Benchmark; # benchmarking
 
 # Changeable variables
 my $configurationXMLFile = "/srv/stats/etc/configuration.xml";
@@ -64,12 +63,9 @@ sub runStats {
 # Make stats for every virtual host
 foreach my $virtualHostReference (@{$configurationXMLContent->{host}})
 {
-	# Skip host if it is no longer hosted with Alliance
+	# Skip host if no longer hosted
 	next if $virtualHostReference->{currentlyHosted} =~ m/^false$/i;
-	
-	my $t0 = new Benchmark; # benchmarking
-	print "$virtualHostReference->{name}\n";
-	
+		
 	# Variable definition
 	my $hostName = $virtualHostReference->{name};
 	my $hostAlias = $virtualHostReference->{hostAlias};
@@ -164,10 +160,6 @@ foreach my $virtualHostReference (@{$configurationXMLContent->{host}})
 		}
 		
 		# Run stats
-		runStats($hostName);
-		
-		my $t1 = new Benchmark; # benchmarking
-		my $td = timediff($t1, $t0); # benchmarking
-		print "the code took:",timestr($td),"\n"; # benchmarking
+		runStats($hostName);		
 	}
 }
