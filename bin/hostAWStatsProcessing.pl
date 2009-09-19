@@ -32,7 +32,7 @@ sub writeError {
 }
 
 # Stats processing subroutine
-# Call using writeError($hostName);
+# Call using runStats($hostName);
 sub runStats {
 	my $host = $_[0];
 	
